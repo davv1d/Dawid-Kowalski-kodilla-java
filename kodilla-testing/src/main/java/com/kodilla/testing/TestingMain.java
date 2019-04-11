@@ -21,11 +21,11 @@ public class TestingMain {
         } else {
             System.out.println("Add ERROR");
         }
-        int resultSubstract = calculator.substract(10, 5);
-        if (resultSubstract == 5) {
-            System.out.println("Substract test OK");
+        int resultSubtract = calculator.subtract(10, 5);
+        if (resultSubtract == 5) {
+            System.out.println("Subtract test OK");
         } else {
-            System.out.println("Substract test ERROR");
+            System.out.println("Subtract test ERROR");
         }
     }
 }
