@@ -1,35 +1,23 @@
 package com.kodilla.stream;
 
-import com.kodilla.stream.beautifier.PoemBeautifier;
-import com.kodilla.stream.iterate.NumbersGenerator;
+import com.kodilla.stream.forumuser.Forum;
+import com.kodilla.stream.forumuser.ForumUser;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StreamMain {
     public static void main(String[] args) {
-        PoemBeautifier poemBeautifier = new PoemBeautifier();
-        poemBeautifier.beautify("Example text 1", text -> text.toUpperCase());
-        poemBeautifier.beautify("Example text 2", text -> "ABC " + text + " ABC");
-        poemBeautifier.beautify("This will be strange text", text -> {
-            StringBuilder sBuilder = new StringBuilder();
-            char[] charArray = text.toCharArray();
-            for (int i = 0; i < charArray.length; i++) {
-                if (i % 2 == 0) {
-                    sBuilder.append(Character.toString(charArray[i]).toUpperCase());
-                } else {
-                    sBuilder.append(charArray[i]);
-                }
-            }
-            return sBuilder.toString();
-        });
-        poemBeautifier.beautify("Palindrome", text -> {
-            text = text.toLowerCase();
-            StringBuilder sBuilder = new StringBuilder();
-            char[] charArray = text.toCharArray();
-            for (int i = charArray.length - 1; i >= 0; i--)
-                sBuilder.append(charArray[i]);
-            return sBuilder.toString();
-        });
-
-        System.out.println("Using stream to generate numbers from 1 to 20");
-        NumbersGenerator.generateEven(20);
+        Forum forum = new Forum();
+        Map<Integer, ForumUser> theMapOfForumUser = forum.getListForumUser().stream()
+                .filter(forumUser -> forumUser.getSex() == 'M')
+                .filter(forumUser -> Period.between(forumUser.getDateOfBirth(), LocalDate.now()).getYears() >= 20)
+                .filter(forumUser -> forumUser.getNumberOfPosts() >= 1)
+                .collect(Collectors.toMap(ForumUser::getUserId, forumUser -> forumUser));
+        theMapOfForumUser.entrySet().stream()
+                .map(entry -> entry.getKey() + " | " + entry.getValue())
+                .forEach(System.out::println);
     }
 }
