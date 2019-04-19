@@ -7,16 +7,16 @@ public final class Continent {
     private final Set<Country> theCountrySet = new HashSet<>();
     private final String name;
 
+    public Continent(final String name) {
+        this.name = name;
+    }
+
     public void addCountry(Country country) {
         theCountrySet.add(country);
     }
 
     public boolean removeCountry(Country country) {
         return theCountrySet.remove(country);
-    }
-
-    public Continent(String name) {
-        this.name = name;
     }
 
     public Set<Country> getTheCountrySet() {
