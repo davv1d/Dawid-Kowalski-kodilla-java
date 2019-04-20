@@ -3,17 +3,15 @@ package com.kodilla.stream.portfolio;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.jws.soap.SOAPBinding;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
+
 
 public class BoardTestSuite {
     public Board prepareTestData() {
@@ -156,23 +154,12 @@ public class BoardTestSuite {
                 .count();
         double calculatedAverage = (double) numberOfWorkingDays / numberOfTasks;
         //version 2. average
-        List<TaskList> taskLists = project.getTaskLists();
-        OptionalDouble optionalDouble1 = IntStream.range(0, project.getTaskLists().size())
-                .filter(n -> taskLists.get(n).equals(inProgressTask))
-                .flatMap(n -> IntStream.range(0, taskLists.get(n).getTasks().size())
-                        .map(k -> Period.between(taskLists.get(n).getTasks().get(k).getCreated(), LocalDate.now()).getDays()))
+        OptionalDouble optionalDouble2= project.getTaskLists().stream()
+                .filter(inProgressTask::equals)
+                .flatMap(taskList -> taskList.getTasks().stream())
+                .mapToInt(task -> Period.between(task.getCreated(), LocalDate.now()).getDays())
                 .average();
 
-        OptionalDouble optionalDouble2 = IntStream.range(0, project.getTaskLists().size())
-                .filter(n -> taskLists.get(n).equals(inProgressTask))
-                .flatMap(n -> IntStream.range(0, taskLists.get(n).getTasks().size())
-                        .map(k -> {
-                            TaskList taskList = taskLists.get(n);
-                            Task task = taskList.getTasks().get(k);
-                            int days = Period.between(task.getCreated(), LocalDate.now()).getDays();
-                            return days;
-                        }))
-                .average();
         double average = optionalDouble2.isPresent() ? optionalDouble2.getAsDouble() : -1;
         //Then
         Assert.assertEquals(10, calculatedAverage, 0.0001);
