@@ -1,6 +1,7 @@
 package com.kodilla.exception.test;
 
 public class FirstChallenge {
+    //
     public double divide(double a, double b) throws ArithmeticException {
         if (b == 0) {
             throw new ArithmeticException();
@@ -15,6 +16,8 @@ public class FirstChallenge {
             System.out.println(result);
         } catch (ArithmeticException a) {
             System.out.println("Error! Division by zero!");
+        } finally {
+            System.out.println("End of program");
         }
     }
 }
