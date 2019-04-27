@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TimetableOfFlight {
-   //
     public void findFlight(Flight flight) throws RouteNotFoundException {
         Map<String, Boolean> currentMap = createCurrentMap();
         if(!currentMap.containsKey(flight.getArrivalAirport())) {
