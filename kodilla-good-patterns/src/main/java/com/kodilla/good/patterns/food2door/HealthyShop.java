@@ -1,7 +1,7 @@
 package com.kodilla.good.patterns.food2door;
 
-public class ExtraFoodShop implements Producer {
-    private KindOfProduct kindOfProduct = KindOfProduct.EXTRA_FOOD;
+public class HealthyShop implements Producer{
+    private KindOfProduct kindOfProduct = KindOfProduct.HEALTHY_FOOD;
     private int amountOfProduct = 1000;
 
     @Override
@@ -16,9 +16,9 @@ public class ExtraFoodShop implements Producer {
 
     @Override
     public boolean process(Order order) {
-        System.out.println("I call to my boss");
-        System.out.println("Product " + kindOfProduct + " is send");
+        System.out.println("We realize your order");
         amountOfProduct -= order.getAmountOfProduct();
+        System.out.println("Everything is ok");
         return true;
 
     }
