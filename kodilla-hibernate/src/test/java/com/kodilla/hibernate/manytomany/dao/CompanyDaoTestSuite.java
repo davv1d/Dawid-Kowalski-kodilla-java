@@ -10,13 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CompanyDaoTestSuite {
     @Autowired
     private CompanyDao companyDao;
-
+    @Autowired
+    private EmployeeDao employeeDao;
     @Test
     public void testSaveManyToMany() {
         //Given
@@ -60,6 +62,60 @@ public class CompanyDaoTestSuite {
             companyDao.deleteById(greyMatterId);
         } catch (Exception e) {
             //do nothing
+        }
+    }
+
+    @Test
+    public void testEmployeeNamedQuery() {
+        //Given
+        Employee employee1 = new Employee("Will", "Smith");
+        Employee employee2 = new Employee("John", "Smith");
+        Employee employee3 = new Employee("Mark", "Selby");
+
+        employeeDao.save(employee1);
+        int id1 = employee1.getId();
+        employeeDao.save(employee2);
+        int id2 = employee2.getId();
+        employeeDao.save(employee3);
+        int id3 = employee3.getId();
+
+        //When
+        List<Employee> resultList = employeeDao.retrieveEmployeesWithLastnameIs("Smith");
+
+        //Then
+        try {
+            Assert.assertEquals(2,resultList.size());
+        } finally {
+            employeeDao.deleteById(id1);
+            employeeDao.deleteById(id2);
+            employeeDao.deleteById(id3);
+        }
+    }
+
+    @Test
+    public void testCompanyNamedNativeQuery() {
+        //Given
+        Company company1 = new Company("Company1");
+        Company company2 = new Company("Computer company");
+        Company company3 = new Company("Condition");
+
+        companyDao.save(company1);
+        int id1 = company1.getId();
+        companyDao.save(company2);
+        int id2 = company2.getId();
+        companyDao.save(company3);
+        int id3 = company3.getId();
+
+        //When
+        List<Company> companyList = companyDao.retrieveCompaniesWithFirstThreeLetterInNameIs("Com");
+
+        //Then
+        try {
+            Assert.assertEquals(2, companyList.size());
+        } finally {
+            companyDao.deleteById(id1);
+            companyDao.deleteById(id2);
+            companyDao.deleteById(id3);
         }
     }
 }
