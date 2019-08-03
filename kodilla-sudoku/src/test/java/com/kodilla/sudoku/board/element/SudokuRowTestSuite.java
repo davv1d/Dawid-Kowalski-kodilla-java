@@ -1,6 +1,5 @@
 package com.kodilla.sudoku.board.element;
 
-import com.kodilla.sudoku.division.Position;
 import org.junit.Assert;
 import org.junit.Test;
 

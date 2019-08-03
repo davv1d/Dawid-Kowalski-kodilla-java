@@ -1,9 +1,9 @@
 package com.kodilla.sudoku;
 
 import com.kodilla.sudoku.board.SudokuBoard;
+import com.kodilla.sudoku.board.element.Position;
 import com.kodilla.sudoku.board.element.SudokuElement;
 import com.kodilla.sudoku.board.element.SudokuRow;
-import com.kodilla.sudoku.division.Position;
 
 import java.util.ArrayList;
 import java.util.Arrays;

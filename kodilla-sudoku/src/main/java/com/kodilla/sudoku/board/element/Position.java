@@ -1,4 +1,4 @@
-package com.kodilla.sudoku.division;
+package com.kodilla.sudoku.board.element;
 
 public class Position {
     private int row;

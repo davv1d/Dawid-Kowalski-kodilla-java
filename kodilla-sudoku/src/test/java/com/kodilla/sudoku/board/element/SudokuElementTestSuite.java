@@ -1,6 +1,5 @@
 package com.kodilla.sudoku.board.element;
 
-import com.kodilla.sudoku.division.Position;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,26 +29,5 @@ public class SudokuElementTestSuite {
         Assert.assertEquals(7, sudokuElement.getValue());
         Assert.assertEquals(8, sudokuElement.getPossibleValues().size());
         Assert.assertFalse(sudokuElement.getPossibleValues().contains(7));;
-    }
-
-    @Test
-    public void testContainsValue() {
-        //Given
-        SudokuElement sudokuElement = new SudokuElement(SudokuElement.EMPTY, new Position(0,0));
-        //When
-        boolean result = sudokuElement.containsValue(5);
-        //Then
-        Assert.assertTrue(result);
-    }
-
-    @Test
-    public void testRemoveValues() {
-        //Given
-        SudokuElement sudokuElement = new SudokuElement(SudokuElement.EMPTY, new Position(0,0));
-        //When
-        sudokuElement.removeValueFromPossibleValues(5);
-        //Then
-        Assert.assertEquals(8, sudokuElement.getPossibleValues().size());
-        Assert.assertFalse(sudokuElement.getPossibleValues().contains(5));
     }
 }

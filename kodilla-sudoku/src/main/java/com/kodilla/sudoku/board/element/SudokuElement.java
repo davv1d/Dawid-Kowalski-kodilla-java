@@ -1,7 +1,5 @@
 package com.kodilla.sudoku.board.element;
 
-import com.kodilla.sudoku.division.Position;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -54,42 +52,14 @@ public class SudokuElement {
         return possibleValues;
     }
 
-    public void removeValueFromPossibleValues(int value) {
-        possibleValues.remove((Integer) value);
-    }
-
-    public boolean containsValue(int value) {
-        return possibleValues.contains(value);
-    }
-
     @Override
     public String toString() {
-        return "SudokuElement{" +
-                "position=" + position +
-                ", value=" + value +
-                ", possibleValues=" + possibleValues +
-                '}';
+        return " | " + value + " | ";
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SudokuElement element = (SudokuElement) o;
-
-        if (getValue() != element.getValue()) return false;
-        if (getPosition() != null ? !getPosition().equals(element.getPosition()) : element.getPosition() != null)
-            return false;
-        return getPossibleValues() != null ? getPossibleValues().equals(element.getPossibleValues()) : element.getPossibleValues() == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getPosition() != null ? getPosition().hashCode() : 0;
-        result = 31 * result + getValue();
-        result = 31 * result + (getPossibleValues() != null ? getPossibleValues().hashCode() : 0);
-        return result;
+    public SudokuElement deepClone() {
+        Position position = new Position(this.position.getRow(), this.position.getColumn());
+        List<Integer> possible = new ArrayList<>(possibleValues);
+        return new SudokuElement(position, value, possible);
     }
 }

@@ -1,8 +1,8 @@
 package com.kodilla.sudoku.board;
 
+import com.kodilla.sudoku.board.element.Position;
 import com.kodilla.sudoku.board.element.SudokuElement;
 import com.kodilla.sudoku.board.element.SudokuRow;
-import com.kodilla.sudoku.division.Position;
 import org.junit.Assert;
 import org.junit.Test;
 
