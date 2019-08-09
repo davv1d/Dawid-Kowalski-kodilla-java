@@ -10,6 +10,7 @@ import com.kodilla.sudoku.dto.Tuple;
 import com.kodilla.sudoku.dto.Tuple3;
 import com.kodilla.sudoku.dto.Tuple4;
 import com.kodilla.sudoku.mcase.Case;
+import com.kodilla.sudoku.move.Move;
 import com.kodilla.sudoku.result.ValidResult;
 
 import java.util.ArrayList;
@@ -20,14 +21,14 @@ import java.util.function.Function;
 
 public class Validator {
 
-    static Function<Tuple3<SudokuElement, Boolean, SudokuBoard>, Case> conditionUsedValues = tuple1 ->
+    static Function<Tuple3<SudokuElement, Move, SudokuBoard>, Case> conditionUsedValues = tuple1 ->
             Case.match(
                     Case.nextCase(new Tuple3<>(tuple1._1, tuple1._3, tuple1._2)),
                     Case.finish(() -> tuple1._1.getPossibleValues().size() == 1, ValidResult.write(new Tuple<>(tuple1._1, tuple1._1.getPossibleValues()))),
                     Case.finish(() -> tuple1._1.getPossibleValues().isEmpty(), ValidResult.error(new Tuple<>(tuple1._1, tuple1._2)))
             );
 
-    static Function<Tuple4<SudokuElement, SudokuBoard, List<Integer>, Boolean>, Case> conditionsPossibleValues = tuple ->
+    static Function<Tuple4<SudokuElement, SudokuBoard, List<Integer>, Move>, Case> conditionsPossibleValues = tuple ->
             Case.match(
                     Case.nextCase(new Tuple3<>(tuple._1, tuple._2, tuple._4)),
                     Case.finish(() -> !tuple._3.isEmpty(), ValidResult.write(new Tuple<>(tuple._1, tuple._3)))
@@ -42,7 +43,7 @@ public class Validator {
         return new ArrayList<>();
     };
 
-    public static Function<Tuple4<SudokuElement, SudokuBoard, Boolean, Group>, Case> checkPossibleValues = tuple -> {
+    public static Function<Tuple4<SudokuElement, SudokuBoard, Move, Group>, Case> checkPossibleValues = tuple -> {
         List<Integer> apply = findValueInPossibleValues.compose(ValuePicker.possibleValues.compose(tuple._4)).apply(new Tuple<>(tuple._1, tuple._2));
         return conditionsPossibleValues.apply(new Tuple4<>(tuple._1, tuple._2, apply, tuple._3));
     };
@@ -56,5 +57,5 @@ public class Validator {
                     .get();
 
     public static Function<Integer, Function<Tuple<SudokuElement, SudokuBoard>, ValidResult>> check = value ->
-            value != SudokuElement.EMPTY ? tuple -> ValidResult.empty(new Tuple<>(tuple._1, false)) : checkIfNotEmpty;
+            value != SudokuElement.EMPTY ? tuple -> ValidResult.empty(new Tuple<>(tuple._1, Move.no())) : checkIfNotEmpty;
 }

@@ -5,13 +5,14 @@ import com.kodilla.sudoku.board.element.SudokuElement;
 import com.kodilla.sudoku.dto.Tuple;
 import com.kodilla.sudoku.dto.Tuple3;
 import com.kodilla.sudoku.error.MyError;
+import com.kodilla.sudoku.move.Move;
 
 import java.util.List;
 import java.util.Optional;
 
 public abstract class ValidResult {
 
-    public abstract Tuple3<SudokuElement, Boolean, Optional<MyError>> execute(Behaviour<Tuple<SudokuElement, List<Integer>>> wr, Behaviour<Tuple<SudokuElement, Boolean>> er);
+    public abstract Tuple3<SudokuElement, Move, Optional<MyError>> execute(Behaviour<Tuple<SudokuElement, List<Integer>>> wr, Behaviour<Tuple<SudokuElement, Move>> er);
 
     private static class Writer extends ValidResult {
         private Tuple<SudokuElement, List<Integer>> value;
@@ -21,32 +22,32 @@ public abstract class ValidResult {
         }
 
         @Override
-        public Tuple3<SudokuElement, Boolean, Optional<MyError>> execute(Behaviour<Tuple<SudokuElement, List<Integer>>> wr, Behaviour<Tuple<SudokuElement, Boolean>> er) {
+        public Tuple3<SudokuElement, Move, Optional<MyError>> execute(Behaviour<Tuple<SudokuElement, List<Integer>>> wr, Behaviour<Tuple<SudokuElement, Move>> er) {
             return wr.apply(value);
         }
     }
 
     private static class MyErrorTest extends ValidResult {
-        private final Tuple<SudokuElement, Boolean> value;
-        private MyErrorTest(Tuple<SudokuElement, Boolean> value) {
+        private final Tuple<SudokuElement, Move> value;
+        private MyErrorTest(Tuple<SudokuElement, Move> value) {
             this.value = value;
         }
 
         @Override
-        public Tuple3<SudokuElement, Boolean, Optional<MyError>> execute(Behaviour<Tuple<SudokuElement, List<Integer>>> wr, Behaviour<Tuple<SudokuElement, Boolean>> er) {
+        public Tuple3<SudokuElement, Move, Optional<MyError>> execute(Behaviour<Tuple<SudokuElement, List<Integer>>> wr, Behaviour<Tuple<SudokuElement, Move>> er) {
             return er.apply(value);
         }
     }
 
     private static class Empty extends ValidResult {
-        private final Tuple<SudokuElement, Boolean> value;
+        private final Tuple<SudokuElement, Move> value;
 
-        private Empty(Tuple<SudokuElement, Boolean> value) {
+        private Empty(Tuple<SudokuElement, Move> value) {
             this.value = value;
         }
 
         @Override
-        public Tuple3<SudokuElement, Boolean, Optional<MyError>> execute(Behaviour<Tuple<SudokuElement, List<Integer>>> wr, Behaviour<Tuple<SudokuElement, Boolean>> er) {
+        public Tuple3<SudokuElement, Move, Optional<MyError>> execute(Behaviour<Tuple<SudokuElement, List<Integer>>> wr, Behaviour<Tuple<SudokuElement, Move>> er) {
             return new Tuple3<>(value._1, value._2, Optional.empty());
         }
 
@@ -62,6 +63,6 @@ public abstract class ValidResult {
     public static ValidResult write(Tuple<SudokuElement, List<Integer>> value) {
         return new Writer(value);
     }
-    public static ValidResult error(Tuple<SudokuElement, Boolean> value) { return new MyErrorTest(value);}
-    public static ValidResult empty(Tuple<SudokuElement, Boolean> value) {return new Empty(value);}
+    public static ValidResult error(Tuple<SudokuElement, Move> value) { return new MyErrorTest(value);}
+    public static ValidResult empty(Tuple<SudokuElement, Move> value) {return new Empty(value);}
 }

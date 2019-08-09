@@ -9,6 +9,7 @@ import com.kodilla.sudoku.dto.Tuple;
 import com.kodilla.sudoku.dto.Tuple3;
 import com.kodilla.sudoku.dto.Tuple4;
 import com.kodilla.sudoku.mcase.Case;
+import com.kodilla.sudoku.move.Move;
 import com.kodilla.sudoku.result.ValidResult;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,9 +29,9 @@ public class ValidatorTestSuite {
         SudokuElement error = new SudokuElement(element.getPosition(), element.getValue(), possible);
         SudokuElement write = new SudokuElement(element.getPosition(), element.getValue(), possible2);
         //When
-        Case aCase = Validator.conditionUsedValues.apply(new Tuple3<>(element, true, board));
-        Case eCase = Validator.conditionUsedValues.apply(new Tuple3<>(error, true, board));
-        Case wCase = Validator.conditionUsedValues.apply(new Tuple3<>(write, true, board));
+        Case aCase = Validator.conditionUsedValues.apply(new Tuple3<>(element, Move.yes(), board));
+        Case eCase = Validator.conditionUsedValues.apply(new Tuple3<>(error, Move.yes(), board));
+        Case wCase = Validator.conditionUsedValues.apply(new Tuple3<>(write, Move.yes(), board));
         //Then
         System.out.println(aCase + " and " + aCase.get());
         System.out.println(eCase + " and " + eCase.get());
@@ -44,8 +45,8 @@ public class ValidatorTestSuite {
         List<Integer> possible = new ArrayList<>();
         List<Integer> possible2 = Collections.singletonList(1);
         //When
-        Case aCase = Validator.conditionsPossibleValues.apply(new Tuple4<>(element, board, possible, true));
-        Case aCase1 = Validator.conditionsPossibleValues.apply(new Tuple4<>(element, board, possible2, true));
+        Case aCase = Validator.conditionsPossibleValues.apply(new Tuple4<>(element, board, possible, Move.yes()));
+        Case aCase1 = Validator.conditionsPossibleValues.apply(new Tuple4<>(element, board, possible2, Move.yes()));
         //Then
         System.out.println(aCase);
         System.out.println(aCase1);

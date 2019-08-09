@@ -6,6 +6,7 @@ import com.kodilla.sudoku.board.element.SudokuElement;
 import com.kodilla.sudoku.division.new_division.BoardDivider;
 import com.kodilla.sudoku.dto.Tuple;
 import com.kodilla.sudoku.dto.Tuple3;
+import com.kodilla.sudoku.move.Move;
 import com.kodilla.sudoku.result.ValidResult;
 import com.kodilla.sudoku.validate.Validator;
 import org.junit.Assert;
@@ -18,7 +19,7 @@ public class CaseTestSuite {
     public void testCaseFinish() {
         //Given
         SudokuElement element = new SudokuElement(5, new Position(1, 1));
-        ValidResult error = ValidResult.error(new Tuple<>(element, true));
+        ValidResult error = ValidResult.error(new Tuple<>(element, Move.no()));
         //When
         Case finish = Case.finish(() -> true, error);
         Case aCase = finish
@@ -36,7 +37,7 @@ public class CaseTestSuite {
         ExampleBoard board = new ExampleBoard();
         SudokuElement element = board.getBoard().getSudokuRows().get(0).getElements().get(0);
         //When
-        Case nextCase = Case.nextCase(new Tuple3<>(element, board.getBoard(), true));
+        Case nextCase = Case.nextCase(new Tuple3<>(element, board.getBoard(), Move.yes()));
         ValidResult validResult = nextCase.get();
         Case aCase = nextCase.checkNext(BoardDivider.row, Validator.checkPossibleValues);
         //Then
@@ -50,8 +51,8 @@ public class CaseTestSuite {
         //Given
         ExampleBoard board = new ExampleBoard();
         SudokuElement element = board.getBoard().getSudokuRows().get(0).getElements().get(0);
-        Case nextCase = Case.nextCase(new Tuple3<>(element, board.getBoard(), true));
-        Case finish = Case.finish(() -> true, ValidResult.error(new Tuple<>(element, true)));
+        Case nextCase = Case.nextCase(new Tuple3<>(element, board.getBoard(), Move.yes()));
+        Case finish = Case.finish(() -> true, ValidResult.error(new Tuple<>(element, Move.no())));
         Case finish1 = Case.finish(() -> false, ValidResult.write(new Tuple<>(element, Collections.singletonList(5))));
         //When
         Case aCase = Case.match(nextCase, finish);

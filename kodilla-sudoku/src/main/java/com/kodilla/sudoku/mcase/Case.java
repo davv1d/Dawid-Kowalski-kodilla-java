@@ -6,6 +6,7 @@ import com.kodilla.sudoku.division.new_division.Group;
 import com.kodilla.sudoku.dto.Tuple;
 import com.kodilla.sudoku.dto.Tuple3;
 import com.kodilla.sudoku.dto.Tuple4;
+import com.kodilla.sudoku.move.Move;
 import com.kodilla.sudoku.result.ValidResult;
 
 import java.util.function.Function;
@@ -19,12 +20,12 @@ public abstract class Case {
     }
 
     public abstract ValidResult get();
-    public abstract Case checkNext(Group group, Function<Tuple4<SudokuElement, SudokuBoard, Boolean, Group>, Case> f);
+    public abstract Case checkNext(Group group, Function<Tuple4<SudokuElement, SudokuBoard, Move, Group>, Case> f);
 
     private static class NextCase extends Case {
-        private final Tuple3<SudokuElement, SudokuBoard, Boolean> tuple;
+        private final Tuple3<SudokuElement, SudokuBoard, Move> tuple;
         private NextCase(Supplier<Boolean> condition,
-                         Tuple3<SudokuElement, SudokuBoard, Boolean> tuple) {
+                         Tuple3<SudokuElement, SudokuBoard, Move> tuple) {
             super(condition);
             this.tuple = tuple;
         }
@@ -35,7 +36,7 @@ public abstract class Case {
         }
 
         @Override
-        public Case checkNext(Group group, Function<Tuple4<SudokuElement, SudokuBoard, Boolean, Group>, Case> f) {
+        public Case checkNext(Group group, Function<Tuple4<SudokuElement, SudokuBoard, Move, Group>, Case> f) {
             return f.apply(new Tuple4<>(tuple._1, tuple._2, tuple._3, group));
         }
     }
@@ -53,12 +54,12 @@ public abstract class Case {
         }
 
         @Override
-        public Case checkNext(Group group, Function<Tuple4<SudokuElement, SudokuBoard, Boolean, Group>, Case> f) {
+        public Case checkNext(Group group, Function<Tuple4<SudokuElement, SudokuBoard, Move, Group>, Case> f) {
             return this;
         }
     }
 
-    public static NextCase nextCase(Tuple3<SudokuElement, SudokuBoard, Boolean> t) {
+    public static NextCase nextCase(Tuple3<SudokuElement, SudokuBoard, Move> t) {
         return new NextCase(() -> true, t);
     }
 
