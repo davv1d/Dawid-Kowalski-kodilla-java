@@ -17,6 +17,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.6.RELEASE'
-    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    compile group: 'javax.validate', name: 'validate-api', version: '2.0.1.Final'
 
 }
