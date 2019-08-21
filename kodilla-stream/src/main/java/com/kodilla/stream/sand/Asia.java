@@ -1,7 +1,5 @@
 package com.kodilla.stream.sand;
 
-import com.kodilla.stream.sand.SandStorage;
-
 import java.math.BigDecimal;
 
 public final class Asia implements SandStorage {

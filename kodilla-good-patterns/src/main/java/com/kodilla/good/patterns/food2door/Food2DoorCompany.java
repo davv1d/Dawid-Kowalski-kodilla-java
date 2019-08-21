@@ -1,7 +1,5 @@
 package com.kodilla.good.patterns.food2door;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

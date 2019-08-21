@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -81,7 +80,7 @@ public class CompanyDaoTestSuite {
 
         //When
         List<Employee> resultList = employeeDao.retrieveEmployeesWithLastnameIs("Smith");
-
+        List<Employee> list = employeeDao.retrieveEmployeesWhichIncludeInNameThisString("it");
         //Then
         try {
             Assert.assertEquals(2,resultList.size());

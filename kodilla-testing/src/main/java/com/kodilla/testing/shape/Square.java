@@ -1,7 +1,5 @@
 package com.kodilla.testing.shape;
 
-import java.util.Objects;
-
 public class Square implements Shape {
     private String squareName;
     private double field;
