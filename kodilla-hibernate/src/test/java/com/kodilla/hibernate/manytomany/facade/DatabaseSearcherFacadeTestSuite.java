@@ -12,9 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FacadeTestSuite {
+public class DatabaseSearcherFacadeTestSuite {
     @Autowired
-    private Facade facade;
+    private DatabaseSearcherFacade databaseSearcherFacade;
 
     @Autowired
     private EmployeeDao employeeDao;
@@ -38,7 +38,7 @@ public class FacadeTestSuite {
 
         //When & Then
 
-        facade.process("Sm", Facade.EMPLOYEES);
+        databaseSearcherFacade.retrieveEmployeesWhichIncludeInNameThisString("it");
 
         employeeDao.deleteById(id1);
         employeeDao.deleteById(id2);
@@ -60,7 +60,7 @@ public class FacadeTestSuite {
         int id3 = company3.getId();
 
         //When & Then
-        facade.process("pa", Facade.COMPANIES);
+        databaseSearcherFacade.retrieveCompaniesWhichIncludeInNameThisString("pa");
         companyDao.deleteById(id1);
         companyDao.deleteById(id2);
         companyDao.deleteById(id3);
