@@ -1,4 +1,4 @@
-package com.kodilla.rps.diffeculty;
+package com.kodilla.rps.difficulty;
 
 import com.kodilla.rps.elements.Element;
 import com.kodilla.rps.elements.ElementName;

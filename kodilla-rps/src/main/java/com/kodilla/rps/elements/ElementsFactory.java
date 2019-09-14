@@ -6,7 +6,7 @@ import java.util.Collections;
 import static com.kodilla.rps.elements.ElementName.*;
 
 public class ElementsFactory {
-    public static Element creatingAnElementBasedOnTheGivenDate(String date) {
+    public static Element makeElement(String date) {
         if (date.equals(ROCK.toString())) {
             return new Element(ROCK, Arrays.asList(SCISSORS, LIZARD), Arrays.asList(PAPER, SPOCK));
         } else if (date.equals(PAPER.toString())) {
@@ -18,7 +18,7 @@ public class ElementsFactory {
         } else if (date.equals(LIZARD.toString())) {
             return new Element(LIZARD, Arrays.asList(PAPER, SPOCK), Arrays.asList(SCISSORS, ROCK));
         } else {
-            return new Element(ERROR, Collections.emptyList(), Collections.emptyList());
+            return new Element(ERROR_NOT_FOUND_NAME, Collections.emptyList(), Collections.emptyList());
         }
     }
 }

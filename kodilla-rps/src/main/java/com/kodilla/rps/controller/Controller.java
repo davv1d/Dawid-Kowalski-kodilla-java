@@ -1,56 +1,60 @@
 package com.kodilla.rps.controller;
 
-import com.kodilla.rps.domain.GamePointStats;
-import com.kodilla.rps.domain.ModelDto;
-import com.kodilla.rps.model.Model;
+import com.kodilla.rps.domain.GameStats;
+import com.kodilla.rps.domain.GameLogicDto;
+import com.kodilla.rps.model.GameLogic;
 import com.kodilla.rps.view.ConfirmBox;
 import com.kodilla.rps.view.GameView;
 import com.kodilla.rps.view.SettingsView;
 
 public class Controller {
     private GameView gameView;
-    private SettingsView settings;
-    private GamePointStats gamePointStats;
-    private Model model = new Model();
+    private SettingsView settingsView;
+    private GameStats gameStats;
+    private GameLogic gameLogic = new GameLogic();
     private ConfirmBox confirmBox = new ConfirmBox();
 
     public Controller(SettingsView settingsGame) {
-        settings = settingsGame;
+        settingsView = settingsGame;
     }
 
-    public void startGame(String userName, Integer numberOfRounds) {
-        gamePointStats = new GamePointStats(numberOfRounds);
+    public void createGameView(String userName, Integer numberOfRounds) {
+        gameStats = new GameStats(0, 0, numberOfRounds);
         gameView = new GameView(this);
         gameView.display(userName, numberOfRounds);
-        settings.closeWindow();
+        settingsView.closeSettingsWindow();
     }
 
-    public void makeOneRound(String chosenElement) {
-        ModelDto modelDto = model.play(chosenElement, this.gamePointStats);
-        gamePointStats = modelDto.getGamePointStats();
-        gameView.updateComputerPoint(modelDto.getGamePointStats().getComputerPoints());
-        gameView.updatePlayerPoint(modelDto.getGamePointStats().getPlayerPoints());
-        gameView.updateNumberOfRounds(modelDto.getGamePointStats().getNumberOfRounds());
-        gameView.updateGameStatusLabel(modelDto.getGameStats());
-        gameView.updatePlayerMoveLabel(modelDto.getPlayerSelection());
-        gameView.updateComputerMoveLabel(modelDto.getComputerSelection());
-        if (modelDto.getGamePointStats().getNumberOfRounds() == 0) {
+    public void completeOneGameRound(String moveChosenByThePlayer) {
+        GameLogicDto gameLogicDto = gameLogic.startGame(moveChosenByThePlayer, gameStats);
+        gameStats = gameLogicDto.getGameStats();
+        updateOfGameViewData(gameLogicDto);
+        if (gameLogicDto.getGameStats().getNumberOfAvailableRounds() == 0) {
             gameView.disableTopMenuButtons();
         }
     }
 
-    public void questionAboutANewGame() {
-        boolean answer = confirmBox.display("Warning", "Are you sure to start new game?");
+    public void startNewGame() {
+        boolean answer = confirmBox.display("Are you sure to start new game?");
         if (answer) {
-            settings.testCreate();
-            gameView.closeProgram();
+            settingsView.openNewSettingsWindow();
+            gameView.closeGameWindow();
         }
     }
 
-    public void questionAboutCloseProgram() {
-        boolean answer = confirmBox.display("Warning", "Are you sure you want to exit");
+    public void closeProgram() {
+        boolean answer = confirmBox.display( "Are you sure you want to exit?");
         if (answer) {
-            gameView.closeProgram();
+            gameView.closeGameWindow();
         }
+    }
+
+    private void updateOfGameViewData(GameLogicDto gameLogicDto) {
+        gameView.updateComputerPoint(gameLogicDto.getGameStats().getComputerPoints());
+        gameView.updatePlayerPoint(gameLogicDto.getGameStats().getPlayerPoints());
+        gameView.updateNumberOfAvailableRounds(gameLogicDto.getGameStats().getNumberOfAvailableRounds());
+        gameView.updateGameResultLabel(gameLogicDto.getGameResult());
+        gameView.updatePlayerMoveLabel(gameLogicDto.getPlayerMovement());
+        gameView.updateComputerMoveLabel(gameLogicDto.getComputerMovement());
     }
 }

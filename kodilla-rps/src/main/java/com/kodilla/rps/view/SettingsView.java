@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class SettingsView extends Application {
     private TextField nameInput;
-    private Spinner<Integer> numberSpinner;
+    private Spinner<Integer> numberOfRoundsSpinner;
     private Stage window;
     private Controller controller = new Controller(this);
 
@@ -24,10 +24,10 @@ public class SettingsView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        test(primaryStage);
+        defaultWindowSettings(primaryStage);
     }
 
-    private void test(Stage primaryStage) {
+    private void defaultWindowSettings(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("Rock-Paper-Scissors-Lizard-Spock Settings");
 
@@ -36,41 +36,37 @@ public class SettingsView extends Application {
         grid.setVgap(8);
         grid.setHgap(10);
 
-        //name label
         Label nameLabel = new Label("User name:");
         GridPane.setConstraints(nameLabel, 0, 0);
 
-        //name input
         nameInput = new TextField("John");
         GridPane.setConstraints(nameInput, 1, 0);
 
-        //number of rounds label
         Label numberOfRoundsLabel = new Label("Number of rounds:");
         GridPane.setConstraints(numberOfRoundsLabel, 0, 1);
 
-        //number of rounds Spinner
-        numberSpinner = new Spinner<>(0, 11, 1);
-        GridPane.setConstraints(numberSpinner, 1, 1);
+        numberOfRoundsSpinner = new Spinner<>(0, 11, 1);
+        GridPane.setConstraints(numberOfRoundsSpinner, 1, 1);
 
         Button buttonLogin = new Button("Play");
-        buttonLogin.setOnAction(this::clickPlay);
+        buttonLogin.setOnAction(this::startNewGame);
         GridPane.setConstraints(buttonLogin, 1,2);
 
-        grid.getChildren().addAll(nameLabel, nameInput, numberOfRoundsLabel, numberSpinner, buttonLogin);
+        grid.getChildren().addAll(nameLabel, nameInput, numberOfRoundsLabel, numberOfRoundsSpinner, buttonLogin);
 
         Scene scene = new Scene(grid, 420,150);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public void testCreate() {
-        test(new Stage());
+    public void openNewSettingsWindow() {
+        defaultWindowSettings(new Stage());
     }
 
-    public void closeWindow() {
+    public void closeSettingsWindow() {
         window.close();
     }
-    private void clickPlay(ActionEvent actionEvent) {
-        controller.startGame(nameInput.getText(), numberSpinner.getValue());
+    private void startNewGame(ActionEvent actionEvent) {
+        controller.createGameView(nameInput.getText(), numberOfRoundsSpinner.getValue());
     }
 }

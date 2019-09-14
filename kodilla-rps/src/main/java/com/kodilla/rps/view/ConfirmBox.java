@@ -12,13 +12,13 @@ public class ConfirmBox {
 
     private boolean answer;
 
-    public boolean display(String title, String message) {
+    public boolean display(String question) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
+        window.setTitle("Warning");
         window.setMinWidth(250);
         Label label = new Label();
-        label.setText(message);
+        label.setText(question);
 
         Button yesButton = new Button("Yes");
         Button noButton = new Button("No");

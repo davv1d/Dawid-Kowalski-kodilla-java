@@ -21,11 +21,11 @@ public class ElementsFactoryTestSuite {
         Element rockResult = null, paperResult = null, scissorsResult = null, spockResult = null, lizardResult = null;
         //When
         try {
-            rockResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(ROCK.toString());
-            paperResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(PAPER.toString());
-            scissorsResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(SCISSORS.toString());
-            spockResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(SPOCK.toString());
-            lizardResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(LIZARD.toString());
+            rockResult = ElementsFactory.makeElement(ROCK.toString());
+            paperResult = ElementsFactory.makeElement(PAPER.toString());
+            scissorsResult = ElementsFactory.makeElement(SCISSORS.toString());
+            spockResult = ElementsFactory.makeElement(SPOCK.toString());
+            lizardResult = ElementsFactory.makeElement(LIZARD.toString());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -38,12 +38,12 @@ public class ElementsFactoryTestSuite {
     }
 
     @Test
-    public void testCreateElementException() {
+    public void testCreateElementNotFoundName() {
         //Given and When
-        try {
-            ElementsFactory.creatingAnElementBasedOnTheGivenDate("test");
-        } catch (ElementCreateException e) {
-            System.out.println(e.getMessage());
-        }
+        Element result = ElementsFactory.makeElement("test");
+        //Then
+        assertEquals(ERROR_NOT_FOUND_NAME, result.getName());
+        assertEquals(0, result.getElementsWhichDefeatMe().size());
+        assertEquals(0, result.getElementsThatIOvercomes().size());
     }
 }

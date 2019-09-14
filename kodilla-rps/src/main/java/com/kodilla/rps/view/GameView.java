@@ -36,7 +36,7 @@ public class GameView {
         window.setTitle("RPSLS GAME");
         window.setOnCloseRequest(e->{
             e.consume();
-            controller.questionAboutCloseProgram();
+            controller.closeProgram();
         });
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(createTopMenu());
@@ -89,7 +89,7 @@ public class GameView {
         GridPane.setConstraints(numberOfRoundsLabel, 1,0);
         Button newGameButton = new Button("New Game");
         newGameButton.setAlignment(Pos.BASELINE_RIGHT);
-        newGameButton.setOnAction(e -> controller.questionAboutANewGame());
+        newGameButton.setOnAction(e -> controller.startNewGame());
         GridPane.setConstraints(newGameButton, 15, 0);
         grid.getChildren().addAll(descRoundLabel, numberOfRoundsLabel, newGameButton);
         HBox bottomMenu = new HBox();
@@ -131,7 +131,7 @@ public class GameView {
         return buttons;
     }
 
-    public void closeProgram() {
+    public void closeGameWindow() {
         window.close();
     }
 
@@ -143,7 +143,7 @@ public class GameView {
 
     private void clickChosenMove(ActionEvent actionEvent) {
         Button source = (Button) actionEvent.getSource();
-        controller.makeOneRound(source.getText());
+        controller.completeOneGameRound(source.getText());
     }
 
     public void updatePlayerPoint(int point) {
@@ -154,12 +154,12 @@ public class GameView {
         this.computerPoint.setText(Integer.toString(point));
     }
 
-    public void updateNumberOfRounds(int number) {
+    public void updateNumberOfAvailableRounds(int number) {
         this.numberOfRoundsLabel.setText(Integer.toString(number));
     }
 
-    public void updateGameStatusLabel(String status) {
-        gameResultLabel.setText(status);
+    public void updateGameResultLabel(String result) {
+        gameResultLabel.setText(result);
     }
 
     public void updatePlayerMoveLabel(String playerMove) {

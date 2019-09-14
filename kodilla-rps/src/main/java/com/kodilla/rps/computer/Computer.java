@@ -1,6 +1,6 @@
 package com.kodilla.rps.computer;
 
-import com.kodilla.rps.diffeculty.DifficultyLevel;
+import com.kodilla.rps.difficulty.DifficultyLevel;
 import com.kodilla.rps.elements.Element;
 import com.kodilla.rps.elements.ElementName;
 
