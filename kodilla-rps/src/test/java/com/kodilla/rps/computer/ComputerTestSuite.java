@@ -16,7 +16,7 @@ public class ComputerTestSuite {
         Element playerElement = new Element(ROCK, Arrays.asList(SCISSORS, LIZARD), Arrays.asList(PAPER, SPOCK));
         Computer computer = new Computer();
         //When
-        ElementName elementComputerName = computer.elementSelectedByComputer(playerElement);
+        ElementName elementComputerName = computer.getElementSelectedByComputer(playerElement);
         //Then
         System.out.println(elementComputerName);
     }

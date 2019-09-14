@@ -10,7 +10,7 @@ import java.util.Random;
 public class Computer {
     private Random random = new Random();
 
-    public ElementName elementSelectedByComputer(Element playerElement) {
+    public ElementName getElementSelectedByComputer(Element playerElement) {
         List<ElementName> elementsToChoose = DifficultyLevel.getListWhereTheComputerHas50PercentChanceOfWinning(playerElement);
         int theMumberDrawn = random.nextInt(elementsToChoose.size());
         return elementsToChoose.get(theMumberDrawn);

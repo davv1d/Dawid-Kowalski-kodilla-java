@@ -21,11 +21,11 @@ public class ElementsFactoryTestSuite {
         Element rockResult = null, paperResult = null, scissorsResult = null, spockResult = null, lizardResult = null;
         //When
         try {
-            rockResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate("1");
-            paperResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate("2");
-            scissorsResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate("3");
-            spockResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate("4");
-            lizardResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate("5");
+            rockResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(ROCK.toString());
+            paperResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(PAPER.toString());
+            scissorsResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(SCISSORS.toString());
+            spockResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(SPOCK.toString());
+            lizardResult = ElementsFactory.creatingAnElementBasedOnTheGivenDate(LIZARD.toString());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

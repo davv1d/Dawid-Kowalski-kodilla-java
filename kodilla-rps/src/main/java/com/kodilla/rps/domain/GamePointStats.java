@@ -1,9 +1,9 @@
-package com.kodilla.rps;
+package com.kodilla.rps.domain;
 
 public class GamePointStats {
     private int playerPoints = 0;
     private int computerPoints = 0;
-    private int numberOfRounds = 0;
+    private int numberOfRounds;
 
     public GamePointStats(int numberOfRounds) {
         this.numberOfRounds = numberOfRounds;
@@ -26,15 +26,4 @@ public class GamePointStats {
     public int getNumberOfRounds() {
         return numberOfRounds;
     }
-
-    //    public static void play(String keyPushFromPlayer) {
-//        Element playerElement;
-//        try {
-//            playerElement = ElementsFactory.creatingAnElementBasedOnTheGivenDate(keyPushFromPlayer);
-//            ElementName computerElement = new Computer().getElementSelectedByComputer(playerElement);
-//            String result = new Judge().checkWhoWinRound(playerElement, computerElement);
-//        } catch (ElementCreateException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
 }
