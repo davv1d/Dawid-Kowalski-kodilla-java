@@ -3,48 +3,53 @@ package com.kodilla.rps.judge;
 import com.kodilla.rps.domain.ComputerDto;
 import com.kodilla.rps.domain.GameLogicDto;
 import com.kodilla.rps.functional.Result;
+import com.kodilla.rps.constant.ErrorInGame;
+import com.kodilla.rps.constant.GameResult;
+import com.kodilla.rps.constant.GameRoundResult;
 
 public class Judge {
-    public static final String PLAYER_WON_THIS_ROUND = "Player won this round";
-    public static final String COMPUTER_WON_THIS_ROUND = "Computer won this round";
-    public static final String DRAW_IN_ROUND = "Draw this time";
-    public static final String ERROR_IN_DEPENDENCIES = "ERROR in dependencies among elements";
-    private static final String PLAYER_WON_GAME = "Player won game";
-    private static final String COMPUTER_WON_GAME = "Computer won game";
-    private static final String DRAW_IN_GAME = "Draw in this game";
 
-    //not error in this place
     public Result<GameLogicDto> checkWhoWinRound(ComputerDto computerDto) {
-        String resultGame;
+        GameResult resultGame;
         if (computerDto.getPlayerElement().getElementsWhichDefeatMe().contains(computerDto.getComputerElementName())) {
-            resultGame = COMPUTER_WON_THIS_ROUND;
+            resultGame = GameRoundResult.computerWonThisRound();
         } else if (computerDto.getPlayerElement().getElementsThatIOvercomes().contains(computerDto.getComputerElementName())) {
-            resultGame = PLAYER_WON_THIS_ROUND;
+            resultGame = GameRoundResult.playerWonThisRound();
         } else if (computerDto.getPlayerElement().getName().equals(computerDto.getComputerElementName())) {
-            resultGame = DRAW_IN_ROUND;
+            resultGame = GameRoundResult.drawInRound();
         } else {
-            return Result.failure(ERROR_IN_DEPENDENCIES);
+            return Result.failure(ErrorInGame.errorInDependenciesAmongElement().getValue());
         }
         return Result.success(new GameLogicDto(
                 computerDto.getGameStats(),
-                computerDto.getPlayerElement().getName().toString(),
-                computerDto.getComputerElementName().toString(),
+                computerDto.getPlayerElement().getName(),
+                computerDto.getComputerElementName(),
                 resultGame));
     }
 
     public GameLogicDto checkIfSomeoneHasWonTheGame(GameLogicDto gameLogicDto) {
-        String resultGame;
-        if (gameLogicDto.getGameStats().getNumberOfAvailableRounds() == 0) {
-            if (gameLogicDto.getGameStats().getPlayerPoints() > gameLogicDto.getGameStats().getComputerPoints()) {
-                resultGame = PLAYER_WON_GAME;
-            } else if (gameLogicDto.getGameStats().getComputerPoints() > gameLogicDto.getGameStats().getPlayerPoints()) {
-                resultGame = COMPUTER_WON_GAME;
+        GameResult resultGame = gameLogicDto.getGameResult();
+        if (!checkIfThereAreAnyRoundsAvailable(gameLogicDto)) {
+            if (checkIfThePlayerHasWon(gameLogicDto)) {
+                resultGame = GameResult.playerWonGame();
+            } else if (checkIfTheComputerHasWon(gameLogicDto)) {
+                resultGame = GameResult.computerWonGame();
             } else {
-                resultGame = DRAW_IN_GAME;
+                resultGame = GameResult.drawInGame();
             }
-            return new GameLogicDto(gameLogicDto.getGameStats(), gameLogicDto.getPlayerMovement(), gameLogicDto.getComputerMovement(), resultGame);
-        } else {
-            return gameLogicDto;
         }
+        return new GameLogicDto(gameLogicDto.getGameStats(), gameLogicDto.getPlayerMovement(), gameLogicDto.getComputerMovement(), resultGame);
+    }
+
+    private boolean checkIfThereAreAnyRoundsAvailable(GameLogicDto gameLogicDto) {
+        return gameLogicDto.getGameStats().getNumberOfAvailableRounds() > 0;
+    }
+
+    private boolean checkIfThePlayerHasWon(GameLogicDto gameLogicDto) {
+        return gameLogicDto.getGameStats().getPlayerPoints() > gameLogicDto.getGameStats().getComputerPoints();
+    }
+
+    private boolean checkIfTheComputerHasWon(GameLogicDto gameLogicDto) {
+        return gameLogicDto.getGameStats().getPlayerPoints() < gameLogicDto.getGameStats().getComputerPoints();
     }
 }

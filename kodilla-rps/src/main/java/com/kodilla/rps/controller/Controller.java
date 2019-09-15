@@ -63,8 +63,8 @@ public class Controller {
         gameView.updateComputerPoint(gameLogicDto.getGameStats().getComputerPoints());
         gameView.updatePlayerPoint(gameLogicDto.getGameStats().getPlayerPoints());
         gameView.updateNumberOfAvailableRounds(gameLogicDto.getGameStats().getNumberOfAvailableRounds());
-        gameView.updateGameResultLabel(gameLogicDto.getGameResult());
-        gameView.updatePlayerMoveLabel(gameLogicDto.getPlayerMovement());
-        gameView.updateComputerMoveLabel(gameLogicDto.getComputerMovement());
+        gameView.updateGameResultLabel(gameLogicDto.getGameResult().getValue());
+        gameView.updatePlayerMoveLabel(gameLogicDto.getPlayerMovement().toString());
+        gameView.updateComputerMoveLabel(gameLogicDto.getComputerMovement().toString());
     }
 }

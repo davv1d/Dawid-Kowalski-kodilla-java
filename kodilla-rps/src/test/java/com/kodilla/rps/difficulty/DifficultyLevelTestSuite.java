@@ -15,9 +15,10 @@ public class DifficultyLevelTestSuite {
     @Test
     public void testGetListWhereTheComputerHas50PercentChanceOfWinning() {
         //Given
+        DifficultyLevel level = new DifficultyLevel();
         Element element = new Element(ROCK, Arrays.asList(SCISSORS, LIZARD), Arrays.asList(PAPER, SPOCK));
         //When
-        List<ElementName> result = DifficultyLevel.getListWhereTheComputerHas50PercentChanceOfWinning(element);
+        List<ElementName> result = level.getListWhereTheComputerHas50PercentChanceOfWinning(element);
         //Then
         double numberOfWinningNames = result.stream()
                 .filter(elementNames -> elementNames.equals(PAPER) || elementNames.equals(SPOCK))

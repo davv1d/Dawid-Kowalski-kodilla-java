@@ -3,6 +3,7 @@ package com.kodilla.rps.elements;
 import com.kodilla.rps.domain.FactoryElementDto;
 import com.kodilla.rps.domain.GameStats;
 import com.kodilla.rps.functional.Result;
+import com.kodilla.rps.constant.ErrorInGame;
 
 import java.util.Arrays;
 
@@ -22,7 +23,7 @@ public class ElementsFactory {
         } else if (date.equals(LIZARD.toString())) {
             element = new Element(LIZARD, Arrays.asList(PAPER, SPOCK), Arrays.asList(SCISSORS, ROCK));
         } else {
-            return Result.failure("Error not found name");
+            return Result.failure(ErrorInGame.errorNotFoundName().getValue());
         }
         return Result.success(new FactoryElementDto(element, gameStats));
     }
