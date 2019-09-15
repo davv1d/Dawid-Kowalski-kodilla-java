@@ -1,7 +1,7 @@
 package com.kodilla.rps.view;
 
 import com.kodilla.rps.controller.Controller;
-import com.kodilla.rps.elements.ElementName;
+import com.kodilla.rps.logic.symbol.SymbolName;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -24,9 +24,9 @@ public class GameView {
     private Label playerPoint = new Label("0");
     private Label computerPoint = new Label("0");
     private Label numberOfRoundsLabel = new Label("0");
-    private List<Button> buttons;
-    private Label playerMoveLabel = new Label();
-    private Label computerMoveLabel = new Label();
+    private List<Button> symbolsButtons;
+    private Label playerSymbolLabel = new Label();
+    private Label computerSymbolLabel = new Label();
     private Label gameResultLabel = new Label();
     private Stage window;
 
@@ -44,8 +44,8 @@ public class GameView {
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(createTopMenu());
         borderPane.setBottom(createBottomMenu(numberOfRounds));
-        borderPane.setLeft(createSideMenu(username, playerPoint, playerMoveLabel));
-        borderPane.setRight(createSideMenu("Computer", computerPoint, computerMoveLabel));
+        borderPane.setLeft(createSideMenu(username, playerPoint, playerSymbolLabel));
+        borderPane.setRight(createSideMenu("Computer", computerPoint, computerSymbolLabel));
         borderPane.setCenter(createCenterMenu());
         Scene scene = new Scene(borderPane, 500,500);
         window.setScene(scene);
@@ -109,8 +109,8 @@ public class GameView {
         GridPane.setConstraints(descGameLabel, 0,0);
         GridPane.setColumnSpan(descGameLabel, 3);
         grid.getChildren().add(descGameLabel);
-        buttons = createButtonsToTopMenu();
-        grid.getChildren().addAll(buttons);
+        symbolsButtons = createButtonsToTopMenu();
+        grid.getChildren().addAll(symbolsButtons);
         HBox topMenu = new HBox();
         topMenu.getChildren().addAll(grid);
         return topMenu;
@@ -118,15 +118,15 @@ public class GameView {
 
     private List<Button> createButtonsToTopMenu() {
         List<String> buttonNames = Arrays.asList(
-                ElementName.ROCK.toString(),
-                ElementName.PAPER.toString(),
-                ElementName.SCISSORS.toString(),
-                ElementName.LIZARD.toString(),
-                ElementName.SPOCK.toString());
+                SymbolName.ROCK.toString(),
+                SymbolName.PAPER.toString(),
+                SymbolName.SCISSORS.toString(),
+                SymbolName.LIZARD.toString(),
+                SymbolName.SPOCK.toString());
         List<Button> buttons = new ArrayList<>();
         for (int i = 0; i < buttonNames.size(); i++) {
             Button button = new Button(buttonNames.get(i));
-            button.setOnAction(this::clickChosenMove);
+            button.setOnAction(this::clickChosenSymbol);
             button.setPrefSize(70,20);
             GridPane.setConstraints(button, i, 1);
             buttons.add(button);
@@ -138,13 +138,13 @@ public class GameView {
         window.close();
     }
 
-    public void disableTopMenuButtons() {
-        for (Button button : buttons) {
+    public void disableSymbolsButtons() {
+        for (Button button : symbolsButtons) {
             button.setDisable(true);
         }
     }
 
-    private void clickChosenMove(ActionEvent actionEvent) {
+    private void clickChosenSymbol(ActionEvent actionEvent) {
         Button source = (Button) actionEvent.getSource();
         controller.completeOneGameRound(source.getText());
     }
@@ -165,10 +165,10 @@ public class GameView {
         gameResultLabel.setText(result);
     }
 
-    public void updatePlayerMoveLabel(String playerMove) {
-        playerMoveLabel.setText(playerMove);
+    public void updatePlayerSymbolLabel(String playerSymbol) {
+        playerSymbolLabel.setText(playerSymbol);
     }
-    public void updateComputerMoveLabel(String computerMove) {
-        computerMoveLabel.setText(computerMove);
+    public void updateComputerSymbolLabel(String computerSymbol) {
+        computerSymbolLabel.setText(computerSymbol);
     }
 }
