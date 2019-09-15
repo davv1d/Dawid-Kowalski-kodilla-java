@@ -21,11 +21,11 @@ public class ElementsFactoryTestSuite {
         Element rockResult = null, paperResult = null, scissorsResult = null, spockResult = null, lizardResult = null;
         //When
         try {
-            rockResult = ElementsFactory.makeElement(ROCK.toString());
-            paperResult = ElementsFactory.makeElement(PAPER.toString());
-            scissorsResult = ElementsFactory.makeElement(SCISSORS.toString());
-            spockResult = ElementsFactory.makeElement(SPOCK.toString());
-            lizardResult = ElementsFactory.makeElement(LIZARD.toString());
+            rockResult = ElementsFactory.makeElement(ROCK.toString(), gameStats);
+            paperResult = ElementsFactory.makeElement(PAPER.toString(), gameStats);
+            scissorsResult = ElementsFactory.makeElement(SCISSORS.toString(), gameStats);
+            spockResult = ElementsFactory.makeElement(SPOCK.toString(), gameStats);
+            lizardResult = ElementsFactory.makeElement(LIZARD.toString(), gameStats);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -40,7 +40,7 @@ public class ElementsFactoryTestSuite {
     @Test
     public void testCreateElementNotFoundName() {
         //Given and When
-        Element result = ElementsFactory.makeElement("test");
+        Element result = ElementsFactory.makeElement("test", gameStats);
         //Then
         assertEquals(ERROR_NOT_FOUND_NAME, result.getName());
         assertEquals(0, result.getElementsWhichDefeatMe().size());

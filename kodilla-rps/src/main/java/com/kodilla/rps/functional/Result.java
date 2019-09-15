@@ -1,16 +1,19 @@
 package com.kodilla.rps.functional;
 
-import com.kodilla.rps.elements.ElementCreateException;
-
 import java.io.Serializable;
-import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class Result<V> implements Serializable {
     private Result() {}
 
     public abstract V getOrElse(V defaultValue);
 
-    public abstract <U, T> Result<U> map(BiFunction<V, T, U> f, T t);
+    public abstract <U> Result<U> map(Function<V, U> f);
+
+    public abstract <U> Result<U> flatMap(Function<V, Result<U>> f);
+
+    public abstract void forEach(Consumer<V> success, Consumer<String> failure);
 
     private static class Failure<V> extends Result<V> {
         private final String message;
@@ -25,8 +28,18 @@ public abstract class Result<V> implements Serializable {
         }
 
         @Override
-        public <U, T> Result<U> map(BiFunction<V, T, U> f, T t) {
+        public <U> Result<U> map(Function<V, U> f) {
             return failure(message);
+        }
+
+        @Override
+        public <U> Result<U> flatMap(Function<V, Result<U>> f) {
+            return failure(message);
+        }
+
+        @Override
+        public void forEach(Consumer<V> success, Consumer<String> failure) {
+            failure.accept(message);
         }
     }
 
@@ -44,12 +57,26 @@ public abstract class Result<V> implements Serializable {
         }
 
         @Override
-        public <U, T> Result<U> map(BiFunction<V, T, U> f, T t) {
+        public <U> Result<U> map(Function<V, U> f) {
             try {
-                return success(f.apply(value, t));
+                return success(f.apply(value));
             } catch (Exception e) {
                 return failure(e.getMessage());
             }
+        }
+
+        @Override
+        public <U> Result<U> flatMap(Function<V, Result<U>> f) {
+            try {
+                return f.apply(value);
+            } catch (Exception e) {
+                return failure(e.getMessage());
+            }
+        }
+
+        @Override
+        public void forEach(Consumer<V> success, Consumer<String> failure) {
+            success.accept(value);
         }
     }
 

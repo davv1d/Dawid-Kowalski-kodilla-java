@@ -1,7 +1,8 @@
 package com.kodilla.rps.controller;
 
-import com.kodilla.rps.domain.GameStats;
 import com.kodilla.rps.domain.GameLogicDto;
+import com.kodilla.rps.domain.GameStats;
+import com.kodilla.rps.functional.Result;
 import com.kodilla.rps.model.GameLogic;
 import com.kodilla.rps.view.ConfirmBox;
 import com.kodilla.rps.view.GameView;
@@ -26,7 +27,16 @@ public class Controller {
     }
 
     public void completeOneGameRound(String moveChosenByThePlayer) {
-        GameLogicDto gameLogicDto = gameLogic.startGame(moveChosenByThePlayer, gameStats);
+        Result<GameLogicDto> gameLogicDtoResult = gameLogic.startGame(moveChosenByThePlayer, gameStats);
+        gameLogicDtoResult.forEach(this::success, this::failure);
+
+    }
+
+    private void failure(String s) {
+        gameView.updateGameResultLabel(s);
+    }
+
+    private void success(GameLogicDto gameLogicDto) {
         gameStats = gameLogicDto.getGameStats();
         updateOfGameViewData(gameLogicDto);
         if (gameLogicDto.getGameStats().getNumberOfAvailableRounds() == 0) {
