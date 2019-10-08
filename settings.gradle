@@ -17,5 +17,5 @@ include 'kodilla-spring-web'
 include 'kodilla-sudoku'
 include 'kodilla-rps'
 include 'kodilla-patterns2'
-
+include 'kodilla-testing2'
 
